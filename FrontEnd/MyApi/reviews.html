@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+
+    <script type="text/javascript" src="js/jquery-3.3.1.js"></script>
+	<script type="text/javascript" src="js/angular.js"></script>
+	<title>Reviews</title>
+</head>
+<body style="background-color:powderblue;">
+
+	<!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+
+    <form>
+    	&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp<font color="red">Review Id</font> &nbsp &nbsp <input type="text" id="delete">
+    	<br>&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp <input type="button" value="Delete" onclick="deleteReview()">
+    </form>
+
+    <form>
+    	<h4>Write your own review !!</h4>
+    	<textarea id="yourreview" rows="4" cols="50">
+    	</textarea>
+    	<br><input type="button" value="Submit" onclick="validate()">  <a href="movies.html"> Back </a>
+    </form>
+
+    <div ng-app="reviewModule" ng-controller="reviewController">
+    	<br>
+    	<div ng-repeat="review in reviewList">
+    		<font size="3" color="blue" face="veranda"><div><b>Review id : {{review.id}}<b></div> </font>
+    		<font size="3" color="purple" face="veranda"> <div>{{review.review_Description}}</div> </font>
+    		<div ng-repeat="reply in replyList">
+    		<div ng-repeat="c in reply">
+    			Reply id : {{c.id}} {{c.reply_Description}}
+    		</div>
+    		</div> </font>
+    	</div>
+    </div>
+
+    <script type="text/javascript">
+
+    	function deleteReview()
+    	{
+    		if($("#delete").val())
+    		{
+    			var text = document.getElementById("delete").value;
+
+    			//post review
+
+    			var url = ((window.location.href).split('=')); //getting movie id
+				url = url[url.length-1];
+				var requestString = 'http://localhost:59826/api/movies/' + url + '/reviews/' + text;
+
+    			$.ajax({
+                url: requestString,
+                type: 'DELETE',
+                dataType: 'json', // added data type
+                success: function(res) {
+                    //console.log(res);
+                    alert("204 No Content");
+                    location.reload();
+                }
+            });
+
+    		}
+    		else
+    		{
+    			alert("Review id needed !!");
+    		}
+    	}
+
+    </script>
+
+    <script type="text/javascript">
+    	function validate()
+    	{
+    		if($.trim($("#yourreview").val()))
+    		{
+    			var text = document.getElementById("yourreview").value;
+
+    			//post review
+
+    			var url = ((window.location.href).split('=')); //getting movie id
+				url = url[url.length-1];
+				var requestString = 'http://localhost:59826/api/movies/' + url + '/reviews';
+
+    			$.ajax({
+					    contentType: 'application/json',
+					    data: JSON.stringify({
+
+					        "review_Description": text
+					    }),
+					    dataType: 'json',
+					    success: function(data){
+					        //console.log(data);
+					        alert("Success");
+					        location.reload();
+					    },
+					    error: function(){
+					    	alert("Failed");
+					        //console.log("Failed");
+					    },
+					    type: 'POST',
+					    url: requestString
+					});
+    		}
+    		else
+    		{
+    			alert("Write something first !!");
+    		}
+    	}
+    </script>
+
+    <script>
+
+    	var app = angular.module('reviewModule', []);
+
+		app.controller('reviewController', function($scope,$http){
+			var url = ((window.location.href).split('=')); //getting movie id
+			url = url[url.length-1];
+			//console.log(url);
+			var requestString = 'http://localhost:59826/api/movies/' + url + '/reviews';
+			$http.get(requestString)
+			.then(function(response){
+				//console.log(response);
+				$scope.reviewList = response.data;
+
+				$scope.replyList = [];
+
+				for(var key in $scope.reviewList){
+  					//console.log($scope.reviewList[key].id);
+  					requestString = 'http://localhost:59826/api/movies/' + url + '/reviews/' + $scope.reviewList[key].id + '/replies';
+  					//requestString = 'http://localhost:59826/api/movies/' + url + '/reviews/' + '1' + '/replies';
+
+  					$http.get(requestString)
+					.then(function(response){
+						//console.log(response.data);
+						
+						$scope.replyList.push(response.data);
+						//console.log($scope.replyList[1]);
+					});
+				}
+			});
+		});
+
+    </script>
+
+</body>
+</html>

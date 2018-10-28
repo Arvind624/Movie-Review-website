@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+
+    <script type="text/javascript" src="js/jquery-3.3.1.js"></script>
+	<script type="text/javascript" src="js/angular.js"></script>
+	<script type="text/javascript" src="js/getMovieList.js"></script>
+	<title>Welcome User</title>
+</head>
+<body ng-app="movieModule" ng-controller="movieController">
+
+	<!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+
+    <br>
+				<!-- Login Panel -->
+				<div class="panel panel-info" ng-show="loginVisible">
+					<div class="panel-heading">Login</div>
+					<div class="panel-body">
+						<div class="form-group">
+							<label for="username">USERNAME</label>
+							<input type="text" ng-model="username">
+						</div>
+						<div class="form-group">
+							<label for="password">PASSWORD</label>
+							<input type="text" ng-model="password">
+						</div>
+						<button class="btn btn-primary" ng-click="login()">Login</button>
+					</div>
+				</div>
+
+	<div ng-hide="loginVisible">
+    <h3 ng-show="userLogin"> Welcome user </h3> <h3 ng-show="adminLogin"> Welcome Admin </h3> <br> <a href="create_movies.php" ng-show="adminLogin"> Create New </a> </div>
+
+	<table class="table table-striped table-bordered table-hover table-condensed" ng-hide="loginVisible">
+		<th>Id</th>
+		<th>Name</th>
+		<th>Duration</th>
+		<th>Category</th>
+		<th>Release Date</th>
+		<th>Director</th>
+		<th>Writer</th>
+		<th>Stars</th>
+		<th>Image</th>
+		<th>Trailer</th>
+		<th ng-show="adminLogin">Edit</th>
+		<th ng-show="adminLogin">Delete</th>
+		<th>Review</th>
+
+		<tr ng-repeat="movie in movieList">
+			<td> {{movie.id}} </td>
+			<td> {{movie.name}} </td>
+			<td> {{movie.duration}} </td>
+			<td> {{movie.categoryName}} </td>
+			<td> {{movie.releaseDate}} </td>
+			<td> {{movie.director}} </td>
+			<td> {{movie.writer}} </td>
+			<td> {{movie.star_Actors}} </td>
+			<td> <img ng-src="{{movie.imagePath}}" height="100" width="100" alt="Not Available"></td>
+			<td> <a ng-href={{movie.trailer}}> Trailer </a> </td>
+			<td ng-show="adminLogin"> <a ng-href="edit.php?movie_id={{movie.id}}"> Edit </a> </td>
+			<td ng-show="adminLogin"> <a ng-href="delete_confirm.php?movie_id={{movie.id}}"> Delete </a> </td>
+			<td> <a ng-href="reviews.html?movie_id={{movie.id}}"> Reviews </a> </td>
+		</tr>
+
+	</table>
+</body>
+</html>

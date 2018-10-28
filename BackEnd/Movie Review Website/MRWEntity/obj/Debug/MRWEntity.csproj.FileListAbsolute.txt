@@ -1,0 +1,5 @@
+c:\users\ishtiaque\documents\visual studio 2013\Projects\Movie Review Website\MRWEntity\bin\Debug\MRWEntity.dll
+c:\users\ishtiaque\documents\visual studio 2013\Projects\Movie Review Website\MRWEntity\bin\Debug\MRWEntity.pdb
+c:\users\ishtiaque\documents\visual studio 2013\Projects\Movie Review Website\MRWEntity\obj\Debug\MRWEntity.csprojResolveAssemblyReference.cache
+c:\users\ishtiaque\documents\visual studio 2013\Projects\Movie Review Website\MRWEntity\obj\Debug\MRWEntity.dll
+c:\users\ishtiaque\documents\visual studio 2013\Projects\Movie Review Website\MRWEntity\obj\Debug\MRWEntity.pdb

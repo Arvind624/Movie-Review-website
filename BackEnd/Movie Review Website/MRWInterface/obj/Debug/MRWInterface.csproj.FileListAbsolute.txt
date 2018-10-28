@@ -1,0 +1,7 @@
+c:\users\ishtiaque\documents\visual studio 2013\Projects\Movie Review Website\MRWInterface\bin\Debug\MRWInterface.dll
+c:\users\ishtiaque\documents\visual studio 2013\Projects\Movie Review Website\MRWInterface\bin\Debug\MRWInterface.pdb
+c:\users\ishtiaque\documents\visual studio 2013\Projects\Movie Review Website\MRWInterface\obj\Debug\MRWInterface.csprojResolveAssemblyReference.cache
+c:\users\ishtiaque\documents\visual studio 2013\Projects\Movie Review Website\MRWInterface\obj\Debug\MRWInterface.dll
+c:\users\ishtiaque\documents\visual studio 2013\Projects\Movie Review Website\MRWInterface\obj\Debug\MRWInterface.pdb
+c:\users\ishtiaque\documents\visual studio 2013\Projects\Movie Review Website\MRWInterface\bin\Debug\MRWEntity.dll
+c:\users\ishtiaque\documents\visual studio 2013\Projects\Movie Review Website\MRWInterface\bin\Debug\MRWEntity.pdb
